@@ -1,3 +1,59 @@
 [gd_scene format=3 uid="uid://br54lx8rhele7"]
 
+[ext_resource type="Texture2D" uid="uid://ln7tqojndmdt" path="res://levels/Golden Hour Campus Football Field.png" id="1_vkd0v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hldmh"]
+size = Vector2(125, 657)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2vm8a"]
+size = Vector2(1180, 152)
+
 [node name="Level3" type="Node2D" unique_id=448134750]
+position = Vector2(-5, 5)
+
+[node name="background" type="Sprite2D" parent="." unique_id=1588322124]
+position = Vector2(1, 4)
+scale = Vector2(0.68600476, 0.6769394)
+texture = ExtResource("1_vkd0v")
+centered = false
+
+[node name="Walls" type="Node2D" parent="." unique_id=372733062]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls" unique_id=1886040575]
+position = Vector2(13, 9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D" unique_id=925893236]
+position = Vector2(52.5, 318.5)
+shape = SubResource("RectangleShape2D_hldmh")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/StaticBody2D" unique_id=1290608505]
+position = Vector2(1072, 308)
+shape = SubResource("RectangleShape2D_hldmh")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls/StaticBody2D" unique_id=2106676660]
+position = Vector2(557, 66)
+shape = SubResource("RectangleShape2D_2vm8a")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls/StaticBody2D" unique_id=596981986]
+position = Vector2(565, 601)
+shape = SubResource("RectangleShape2D_2vm8a")
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=458721583]
+position = Vector2(580, 528)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1132165319]
+
+[node name="SpawnPoint1" type="Marker2D" parent="Node2D" unique_id=677578791]
+position = Vector2(649, 185)
+
+[node name="SpawnPoint2" type="Marker2D" parent="Node2D" unique_id=1203400369]
+position = Vector2(497, 180)
+
+[node name="SpawnPoint3" type="Marker2D" parent="Node2D" unique_id=1263731264]
+position = Vector2(929, 168)
+
+[node name="SpawnPoint4" type="Marker2D" parent="Node2D" unique_id=1012344433]
+position = Vector2(228, 175)
+
+[node name="BossSpawn" type="Marker2D" parent="Node2D" unique_id=1650113421]
+position = Vector2(574, 181)
