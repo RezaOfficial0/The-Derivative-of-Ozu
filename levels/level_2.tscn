@@ -59,3 +59,6 @@ position = Vector2(979, 496)
 
 [node name="BossStart" type="Marker2D" parent="StartPoint" unique_id=376955365]
 position = Vector2(550, 241)
+
+[node name="Spawn4" type="Marker2D" parent="StartPoint" unique_id=529993724]
+position = Vector2(975, 298)
