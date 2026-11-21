@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/boss_sine.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/bosses/boss_sine.png" id="2_tex"]
+[ext_resource type="FontFile" path="res://assets/fonts/math_font.ttf" id="3_font"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sine"]
+size = Vector2(190, 190)
+
+[node name="BossSine" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_sine")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -240.0
+offset_top = -200.0
+offset_right = 240.0
+offset_bottom = -136.0
+theme_override_colors/font_color = Color(1, 0.35, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 54
+text = "(sin x)ˣ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="."]
+offset_left = -160.0
+offset_top = 128.0
+offset_right = 160.0
+offset_bottom = 166.0
+theme_override_colors/font_color = Color(0.4, 1, 0.5, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 26
+text = "4 vuruş · 6 sn"
+horizontal_alignment = 1

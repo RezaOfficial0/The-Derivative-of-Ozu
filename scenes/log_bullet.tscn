@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/log_bullet.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://assets/fonts/math_font.ttf" id="2_font"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ln"]
+radius = 22.0
+
+[node name="LogBullet" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ln")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -30.0
+offset_right = 40.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0.35, 0.15, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 44
+text = "ln"
+horizontal_alignment = 1
+vertical_alignment = 1
