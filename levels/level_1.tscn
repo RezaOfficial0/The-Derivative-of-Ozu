@@ -1,3 +1,70 @@
 [gd_scene format=3 uid="uid://t8t3ok1lf7c6"]
 
+[ext_resource type="Texture2D" uid="uid://cr7fpx5shpkm2" path="res://assets/backgrounds/ogrenci_merkezi.png" id="1_vn7o3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64h5k"]
+size = Vector2(387.5, 941.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2x11q"]
+size = Vector2(335, 937.875)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2mk2"]
+size = Vector2(951.5, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slskl"]
+size = Vector2(955.5, 273)
+
 [node name="Level1" type="Node2D" unique_id=73060321]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=449105327]
+position = Vector2(4, 1)
+texture = ExtResource("1_vn7o3")
+centered = false
+
+[node name="walls" type="Node2D" parent="." unique_id=12644891]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="walls" unique_id=52024266]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=641249396]
+position = Vector2(193, 472)
+shape = SubResource("RectangleShape2D_64h5k")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="walls" unique_id=74288353]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D2" unique_id=1657297824]
+position = Vector2(1507, 469.0625)
+shape = SubResource("RectangleShape2D_2x11q")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="walls" unique_id=836878595]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D3" unique_id=1470805050]
+position = Vector2(863.75, 100)
+shape = SubResource("RectangleShape2D_y2mk2")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="walls" unique_id=354348680]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D4" unique_id=1555575506]
+position = Vector2(862.25, 798.5)
+shape = SubResource("RectangleShape2D_slskl")
+
+[node name="PlayerStart" type="Marker2D" parent="." unique_id=319418566]
+position = Vector2(450, 424)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=1828514453]
+position = Vector2(1, -1)
+
+[node name="Spawn1" type="Marker2D" parent="SpawnPoints" unique_id=1209978588]
+position = Vector2(1087, 564)
+
+[node name="Spawn2" type="Marker2D" parent="SpawnPoints" unique_id=1781610953]
+position = Vector2(1093, 421)
+
+[node name="Spawn3" type="Marker2D" parent="SpawnPoints" unique_id=1771333155]
+position = Vector2(1091, 249)
+
+[node name="BossStart" type="Marker2D" parent="SpawnPoints" unique_id=1369998278]
+position = Vector2(1214, 433)
