@@ -4,8 +4,11 @@ extends Area2D
 @export var speed := 230.0
 @export var damage := 1
 @export var lifetime := 4.0
+@export var wave_amp := 0.0     # 0 = duz gider, >0 = sinus dalgasi cizerek gider
+@export var wave_freq := 6.0
 
 var direction := Vector2.RIGHT
+var _t := 0.0
 
 
 func _ready() -> void:
@@ -16,7 +19,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	position += direction * speed * delta
+	_t += delta
+	var side := direction.orthogonal() * cos(_t * wave_freq) * wave_amp * wave_freq
+	position += (direction * speed + side) * delta
 
 
 func _on_body_entered(body: Node) -> void:

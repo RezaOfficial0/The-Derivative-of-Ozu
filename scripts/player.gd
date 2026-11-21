@@ -115,7 +115,9 @@ func _heavy_slam() -> void:
 	for e in get_tree().get_nodes_in_group("enemies"):
 		var n := e as Node2D
 		if n and n.global_position.distance_to(global_position) <= slam_radius:
-			if n.has_method("take_derivative"):
+			if n.has_method("take_slam"):
+				n.take_slam()          # bazi bosslar atlamaya ozel tepki verir
+			elif n.has_method("take_derivative"):
 				n.take_derivative()
 	_shockwave()
 	slammed.emit()

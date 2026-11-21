@@ -1,22 +1,36 @@
 extends Node2D
 ## Bolum akisi. Bu script'i her level sahnesinin kok node'una (Level1, Level2...) takmak yeterli.
-## Sahnede su node'lar olmali: Background (Sprite2D), PlayerStart (Marker2D),
-## SpawnPoints (altinda Spawn1, Spawn2... Marker2D'ler).
+## Sahnede olmasi gerekenler: arka plan Sprite2D'si, PlayerStart (Marker2D),
+## adi "Spawn" ile baslayan Marker2D'ler (Spawn1, Spawn2...) ve istege bagli BossStart.
 
 const Controls := preload("res://scripts/controls.gd")
 const PLAYER := preload("res://scenes/player.tscn")
 const PAPER := preload("res://scenes/paper_enemy.tscn")
 const HUD := preload("res://scenes/hud.tscn")
 
-## Her dalga = o dalgada dogacak kagitlarin polinomlari.
-## [0, 0, 1] = x²   [0, 3] = 3x   [0, 1, 0, 1] = x³ + x
-var waves: Array = [
-	[[0, 0, 1], [0, 0, 1], [0, 3]],
-	[[0, 0, 0, 1], [0, 0, 1], [0, 2], [0, 0, 1]],
-	[[0, 1, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 1], [0, 0, 1]],
-]
+## Dalga setleri. Her dalga = o dalgada dogacak kagitlarin polinomlari.
+## [0, 0, 1] = x²   [0, 3] = 3x   [0, 1, 0, 1] = x³ + x   [0, 0, 0, 0, 1] = x⁴
+const WAVE_SETS := {
+	1: [
+		[[0, 0, 1], [0, 0, 1], [0, 3]],
+		[[0, 0, 0, 1], [0, 0, 1], [0, 2], [0, 0, 1]],
+		[[0, 1, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 1], [0, 0, 1]],
+	],
+	2: [
+		[[0, 0, 1], [0, 0, 0, 1], [0, 3], [0, 0, 1]],
+		[[0, 1, 0, 1], [0, 0, 0, 1], [0, 0, 2], [0, 0, 0, 0, 1]],
+		[[0, 0, 0, 0, 1], [0, 1, 0, 1], [0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 1], [0, 2]],
+	],
+	3: [
+		[[0, 0, 0, 1], [0, 0, 0, 1], [0, 1, 0, 1], [0, 0, 1]],
+		[[0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 1, 0, 1], [0, 0, 0, 1], [0, 0, 1]],
+		[[0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 1, 0, 1], [0, 1, 0, 1], [0, 0, 0, 1], [0, 0, 1]],
+	],
+}
+var waves: Array = []
 
 @export var level_name := "Öğrenci Merkezi"
+@export_range(1, 3) var wave_set := 1       # 1 kolay, 2 orta, 3 zor
 @export var spawn_interval := 0.7
 @export_file("*.tscn") var next_level := ""   # sonraki bolum (bos ise burada biter)
 ## Dalgalardan sonra gelecek boss. Bos birakilirsa boss olmadan biter.
@@ -37,9 +51,9 @@ var boss = null
 
 func _ready() -> void:
 	Controls.setup()
-	for m in $SpawnPoints.get_children():
-		if m is Marker2D and String(m.name).begins_with("Spawn"):
-			spawn_points.append(m)
+	waves = WAVE_SETS.get(wave_set, WAVE_SETS[1])
+	for m in find_children("Spawn*", "Marker2D", true, false):
+		spawn_points.append(m)
 	_setup_camera()
 
 	hud = HUD.instantiate()
@@ -52,7 +66,7 @@ func _ready() -> void:
 	player.slammed.connect(_shake)
 	player.hint.connect(hud.show_hint)
 	add_child(player)
-	player.global_position = $PlayerStart.global_position
+	player.global_position = _marker_pos("PlayerStart", _map_center())
 
 	hud.show_message("Bugün Özyeğin'i kurtarmaya geldim!", 2.0)
 	await get_tree().create_timer(2.2).timeout
@@ -68,11 +82,41 @@ func _setup_camera() -> void:
 	get_viewport().size_changed.connect(_fit_camera)
 
 
+## Arka plan Sprite2D'sini bul (adi Background ya da background olabilir).
+func _background() -> Sprite2D:
+	for n in ["Background", "background"]:
+		var s := get_node_or_null(n) as Sprite2D
+		if s:
+			return s
+	for c in get_children():
+		if c is Sprite2D and c.texture:
+			return c
+	return null
+
+
+func _map_rect() -> Rect2:
+	var bg := _background()
+	if bg == null or bg.texture == null:
+		return Rect2(Vector2.ZERO, get_viewport_rect().size)
+	var size: Vector2 = bg.texture.get_size() * bg.scale
+	var pos: Vector2 = bg.global_position - (size / 2.0 if bg.centered else Vector2.ZERO)
+	return Rect2(pos, size)
+
+
+func _map_center() -> Vector2:
+	return _map_rect().get_center()
+
+
+func _marker_pos(marker_name: String, fallback: Vector2) -> Vector2:
+	var m := find_child(marker_name, true, false) as Node2D
+	return m.global_position if m else fallback
+
+
 ## Haritanin tamami ekrana sigsin.
 func _fit_camera() -> void:
-	var bg: Sprite2D = $Background
-	var map_size: Vector2 = bg.texture.get_size()
-	camera.global_position = bg.global_position + map_size / 2.0
+	var r := _map_rect()
+	var map_size: Vector2 = r.size
+	camera.global_position = r.get_center()
 	var vp: Vector2 = get_viewport_rect().size
 	var z: float = minf(vp.x / map_size.x, vp.y / map_size.y)
 	camera.zoom = Vector2(z, z)
@@ -116,7 +160,7 @@ func _spawn_paper(poly: Array, reward := 1) -> void:
 	e.ulti_reward = reward
 	e.died.connect(_on_enemy_died)
 	add_child(e)
-	var pos: Vector2 = $PlayerStart.global_position + Vector2(500, 0)
+	var pos: Vector2 = _map_center()
 	if spawn_points.size() > 0:
 		var sp: Marker2D = spawn_points.pick_random()
 		pos = sp.global_position
@@ -158,19 +202,16 @@ func _start_boss() -> void:
 
 
 func _boss_position() -> Vector2:
-	var m := find_child("BossStart", true, false) as Node2D
-	if m:
-		return m.global_position
-	var bg: Sprite2D = $Background
-	return bg.global_position + bg.texture.get_size() / 2.0
+	return _marker_pos("BossStart", _map_center())
 
 
 ## Boss kagit cagirir: bunlar 2 kat ulti doldurur.
 func _on_boss_summon(polys: Array) -> void:
 	if level_over:
 		return
+	var reward = boss.get("minion_reward") if boss else null
 	for p in polys:
-		_spawn_paper(p, 2)
+		_spawn_paper(p, reward if reward != null else 2)
 
 
 func _on_boss_defeated() -> void:

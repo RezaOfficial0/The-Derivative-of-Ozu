@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://curas6jeuhfch"
-path="res://.godot/imported/Özyeğin University Pixel Plaza.png-4bd776a19b8a587396c8ff0faf4a9931.ctex"
+uid="uid://dfrwefb40bkhi"
+path="res://.godot/imported/meydan.png-974398a71c8b6a0d461ab1dc0a4e4295.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/Özyeğin University Pixel Plaza.png"
-dest_files=["res://.godot/imported/Özyeğin University Pixel Plaza.png-4bd776a19b8a587396c8ff0faf4a9931.ctex"]
+source_file="res://assets/backgrounds/meydan.png"
+dest_files=["res://.godot/imported/meydan.png-974398a71c8b6a0d461ab1dc0a4e4295.ctex"]
 
 [params]
 

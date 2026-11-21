@@ -17,6 +17,7 @@ size = Vector2(955.5, 273)
 
 [node name="Level1" type="Node2D" unique_id=73060321]
 script = ExtResource("1_jirdo")
+next_level = "uid://dk3stcfpb5l0b"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=449105327]
 position = Vector2(4, 1)
