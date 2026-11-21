@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/paper_enemy.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/paper_walk.png" id="2_tex"]
+[ext_resource type="FontFile" path="res://assets/fonts/math_font.ttf" id="3_font"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_paper"]
+size = Vector2(92, 112)
+
+[node name="PaperEnemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 6
+motion_mode = 1
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tex")
+hframes = 2
+vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_paper")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -42.0
+offset_top = -24.0
+offset_right = 42.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(0.12, 0.15, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.15, 0.45, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 30
+text = "x²"
+horizontal_alignment = 1
+vertical_alignment = 1

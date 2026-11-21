@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://t8t3ok1lf7c6"]
 
+[ext_resource type="Script" uid="uid://cufm8j5ogo8gc" path="res://scripts/level.gd" id="1_jirdo"]
 [ext_resource type="Texture2D" uid="uid://cr7fpx5shpkm2" path="res://assets/backgrounds/ogrenci_merkezi.png" id="1_vn7o3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_64h5k"]
-size = Vector2(387.5, 941.5)
+size = Vector2(385.75, 941.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2x11q"]
 size = Vector2(335, 937.875)
@@ -15,6 +16,7 @@ size = Vector2(951.5, 200)
 size = Vector2(955.5, 273)
 
 [node name="Level1" type="Node2D" unique_id=73060321]
+script = ExtResource("1_jirdo")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=449105327]
 position = Vector2(4, 1)
@@ -27,7 +29,7 @@ centered = false
 collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=641249396]
-position = Vector2(193, 472)
+position = Vector2(192.125, 472)
 shape = SubResource("RectangleShape2D_64h5k")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="walls" unique_id=74288353]
