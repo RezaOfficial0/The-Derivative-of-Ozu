@@ -124,7 +124,7 @@ func _heavy_slam() -> void:
 
 func _shockwave() -> void:
 	var ring := Line2D.new()
-	ring.width = 15.0
+	ring.width = 20.0
 	ring.default_color = Color(1, 1, 1, 0.9)
 	for i in 33:
 		var a := TAU * i / 32.0
