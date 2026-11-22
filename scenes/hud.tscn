@@ -94,9 +94,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -230.0
-offset_top = 12.0
+offset_top = 26.0
 offset_right = 230.0
-offset_bottom = 82.0
+offset_bottom = 96.0
 grow_horizontal = 2
 
 [node name="BossName" type="Label" parent="BossPanel"]
@@ -139,3 +139,11 @@ theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 22
 text = "Hedef"
 horizontal_alignment = 1
+
+[node name="BossFormula" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 70.0
+grow_horizontal = 2
+mouse_filter = 2

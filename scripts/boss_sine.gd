@@ -28,7 +28,10 @@ const C_UNDEF := Color(0.75, 0.7, 0.85)
 @export var undefined_time := 2.5      # tanimsiz (hayalet) kalma suresi
 @export var open_time := 6.0           # atlamadan sonra savunmasiz kalma suresi
 @export var open_hits := 4             # acikken kac turev gerekir
-@export var fan_interval := 1.8        # dalgali mermi yelpazesi araligi
+@export var fan_interval := 2.6        # dalgali mermi yelpazesi araligi
+@export var fan_bullets := 3           # yelpazede kac mermi
+@export var spiral_rate := 0.24        # tanimsizken kac saniyede bir spiral mermisi
+@export var spiral_arms := 1           # spiral kac kollu
 @export var summon_interval := 7.0
 @export var max_minions := 3
 @export var contact_radius := 100.0
@@ -175,20 +178,21 @@ func _attack_fan(delta: float) -> void:
 	fan_timer -= delta
 	if fan_timer > 0.0 or player == null or not is_instance_valid(player):
 		return
-	fan_timer = fan_interval * (0.65 + 0.35 * float(lives) / max_lives)
+	fan_timer = fan_interval * (0.8 + 0.2 * float(lives) / max_lives)
 	var base: Vector2 = global_position.direction_to(player.global_position)
-	for a in [-0.5, -0.25, 0.0, 0.25, 0.5]:
-		_shoot(base.rotated(a), 200.0, 30.0)
+	for i in fan_bullets:
+		var a := lerpf(-0.35, 0.35, float(i) / maxf(fan_bullets - 1, 1))
+		_shoot(base.rotated(a), 190.0, 30.0)
 
 
 func _attack_spiral(delta: float) -> void:
 	spiral_timer -= delta
 	if spiral_timer > 0.0:
 		return
-	spiral_timer = 0.13
-	spiral_angle += 0.4
-	for k in 2:
-		var a := spiral_angle + PI * k
+	spiral_timer = spiral_rate
+	spiral_angle += 0.55
+	for k in spiral_arms:
+		var a := spiral_angle + TAU * k / spiral_arms
 		_shoot(Vector2(cos(a), sin(a)), 180.0, 0.0)
 
 

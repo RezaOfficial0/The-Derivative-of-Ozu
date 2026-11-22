@@ -32,10 +32,13 @@ var waves: Array = []
 
 @export var level_name := "Öğrenci Merkezi"
 @export_range(1, 3) var wave_set := 1       # 1 kolay, 2 orta, 3 zor
+@export var player_max_hp := 5               # Can Deha bu bolumde kac canla baslar
 @export var spawn_interval := 0.7
 @export_file("*.tscn") var next_level := ""   # sonraki bolum (bos ise burada biter)
 ## Dalgalardan sonra gelecek boss. Bos birakilirsa boss olmadan biter.
 @export var boss_scene: PackedScene = preload("res://scenes/boss_exp.tscn")
+## Son bolum mu? (bitince "Ozyegin kurtarildi" + ana menu)
+@export var is_final_level := false
 
 var player = null
 var hud = null
@@ -64,6 +67,7 @@ func _ready() -> void:
 	add_child(hud)
 
 	player = PLAYER.instantiate()
+	player.max_hp = player_max_hp
 	player.hp_changed.connect(hud.set_hp)
 	player.ulti_changed.connect(hud.set_ulti)
 	player.died.connect(_on_player_died)
@@ -202,9 +206,14 @@ func _start_boss() -> void:
 	boss.hint.connect(hud.show_hint)
 	if boss.has_signal("objective"):
 		boss.objective.connect(hud.set_objective)
+	if boss.has_signal("formula_changed"):
+		boss.formula_changed.connect(hud.set_boss_formula)
 	boss.defeated.connect(_on_boss_defeated)
 	add_child(boss)
-	hud.show_boss(boss.boss_title, boss.max_lives)
+	var ml = boss.get("max_lives")
+	hud.show_boss(boss.boss_title, ml if ml != null else 1)
+	if boss.has_method("_emit_lives"):
+		boss._emit_lives()     # cubuk bossun guncel durumunu gostersin
 	hud.set_boss_mode(true)
 
 
@@ -227,6 +236,7 @@ func _on_boss_defeated() -> void:
 			e.kill()
 	hud.hide_boss()
 	hud.set_objective("")
+	hud.set_boss_formula([])
 	hud.set_boss_mode(false)
 	_shake(18.0)
 	_level_clear()
@@ -235,8 +245,11 @@ func _on_boss_defeated() -> void:
 # ---------------------------------------------------------------- bitis
 func _level_clear() -> void:
 	level_over = true
-	hud.show_message("BÖLÜM TAMAM!\n%s kurtarıldı." % level_name, 0)
-	await get_tree().create_timer(3.5).timeout
+	if is_final_level:
+		hud.show_message("ÖZYEĞİN KURTARILDI!\nQ.E.D.", 0)
+	else:
+		hud.show_message("BÖLÜM TAMAM!\n%s kurtarıldı." % level_name, 0)
+	await get_tree().create_timer(5.0 if is_final_level else 3.5).timeout
 	if next_level != "":
 		get_tree().change_scene_to_file(next_level)
 	else:

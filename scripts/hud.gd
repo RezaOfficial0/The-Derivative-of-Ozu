@@ -1,4 +1,6 @@
 extends CanvasLayer
+
+const MATH_FONT := preload("res://assets/fonts/math_font.ttf")
 ## Ekrandaki bilgiler: can, ulti bari, ortadaki mesajlar.
 
 @onready var hp_label: Label = $HPLabel
@@ -10,6 +12,7 @@ extends CanvasLayer
 @onready var boss_name: Label = $BossPanel/BossName
 @onready var boss_bar: ProgressBar = $BossPanel/BossBar
 @onready var objective_label: Label = $ObjectiveLabel
+@onready var boss_formula: Control = $BossFormula
 
 var _msg_id := 0
 var _hint_id := 0
@@ -90,3 +93,36 @@ func set_boss_mode(on: bool) -> void:
 func set_objective(text: String) -> void:
 	objective_label.text = text
 	objective_label.visible = text != ""
+
+
+## Ust uste usler: ["f(x) = e", "e", "P"] -> f(x) = e^(e^(P)) gibi, her kat daha kucuk ve daha yukarida.
+## Bos liste = formulu gizle (boss adi geri gelir).
+func set_boss_formula(levels: Array) -> void:
+	for c in boss_formula.get_children():
+		c.queue_free()
+	if levels.is_empty():
+		boss_name.show()
+		return
+	boss_name.hide()
+	var x := 0.0
+	var y := 30.0 if levels.size() > 1 else 22.0
+	var size := 28.0 if levels.size() > 1 else 22.0
+	var made: Array[Label] = []
+	for i in levels.size():
+		var l := Label.new()
+		l.text = levels[i]
+		l.add_theme_font_override("font", MATH_FONT)
+		l.add_theme_font_size_override("font_size", int(size))
+		var last := i == levels.size() - 1
+		l.add_theme_color_override("font_color", Color(1, 0.95, 0.7) if last else Color(1, 0.5, 0.45))
+		l.add_theme_color_override("font_outline_color", Color.BLACK)
+		l.add_theme_constant_override("outline_size", 6)
+		boss_formula.add_child(l)
+		l.position = Vector2(x, y)
+		made.append(l)
+		x += l.get_minimum_size().x - 3.0
+		y -= size * 0.45            # bir sonraki kat yukari
+		size = maxf(size * 0.68, 17.0)  # ve kuculur
+	var off := (boss_formula.size.x - x) / 2.0
+	for l in made:
+		l.position.x += off

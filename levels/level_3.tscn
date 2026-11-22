@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c28eu8liawwsa" path="res://assets/backgrounds/saha.png" id="1_vkd0v"]
 [ext_resource type="Script" uid="uid://cufm8j5ogo8gc" path="res://scripts/level.gd" id="2_hldmh"]
+[ext_resource type="PackedScene" path="res://scenes/boss_poly.tscn" id="3_boss"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2vm8a"]
 size = Vector2(171.3, 967.7)
@@ -13,7 +14,9 @@ size = Vector2(1747.5, 189.9)
 script = ExtResource("2_hldmh")
 level_name = "Futbol Sahası"
 wave_set = 3
-boss_scene = null
+player_max_hp = 10
+boss_scene = ExtResource("3_boss")
+is_final_level = true
 
 [node name="background" type="Sprite2D" parent="." unique_id=130948664]
 texture = ExtResource("1_vkd0v")
@@ -58,4 +61,4 @@ position = Vector2(747.5, 274.3)
 position = Vector2(936.1, 274.3)
 
 [node name="BossStart" type="Marker2D" parent="." unique_id=1401797673]
-position = Vector2(852, 302.4)
+position = Vector2(852, 380)
