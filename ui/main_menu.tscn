@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://oip7aaiv6220" path="res://assets/backgrounds/Giriş.webp" id="1_0dkrt"]
 [ext_resource type="FontFile" uid="uid://dqrrhwspj7tsf" path="res://assets/fonts/PixelifySans-Medium.ttf" id="2_wk0pr"]
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="3_menu"]
+[ext_resource type="Script" uid="uid://e43rkmrtssc3" path="res://scripts/main_menu.gd" id="3_menu"]
 
 [node name="MainMenü" type="Control" unique_id=1510535926]
 layout_mode = 3
