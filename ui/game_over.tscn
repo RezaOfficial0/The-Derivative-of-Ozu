@@ -1,3 +1,54 @@
 [gd_scene format=3 uid="uid://b7ik2jvbl1f8q"]
 
-[node name="GameOver" type="Node2D" unique_id=688298640]
+[ext_resource type="Texture2D" uid="uid://dcwg5bl8ssx83" path="res://assets/backgrounds/GameOverEkranı.webp" id="1_5eixk"]
+[ext_resource type="FontFile" uid="uid://dqrrhwspj7tsf" path="res://assets/fonts/PixelifySans-Medium.ttf" id="2_j1fe5"]
+[ext_resource type="Texture2D" uid="uid://d1y53kx736btc" path="res://assets/backgrounds/80400d75-f655-4220-8a19-6bc04eb39783-removebg-preview.png" id="2_xjda6"]
+
+[sub_resource type="Theme" id="Theme_2vm8a"]
+
+[node name="Control" type="Control" unique_id=1952558612]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2095860935]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_5eixk")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=275533737]
+texture_filter = 1
+layout_mode = 0
+offset_left = -1426.0
+offset_top = 875.0
+offset_right = 238.0
+offset_bottom = 1680.0
+texture = ExtResource("2_xjda6")
+
+[node name="StartButton" type="Button" parent="." unique_id=1579016083]
+layout_mode = 0
+offset_left = 680.0
+offset_top = 200.0
+offset_right = 992.0
+offset_bottom = 268.0
+theme = SubResource("Theme_2vm8a")
+theme_override_fonts/font = ExtResource("2_j1fe5")
+theme_override_font_sizes/font_size = 50
+text = "TEKRAR DENE"
+
+[node name="QuitButton" type="Button" parent="." unique_id=722560376]
+layout_mode = 0
+offset_left = 742.0
+offset_top = 333.0
+offset_right = 928.0
+offset_bottom = 383.0
+theme_override_fonts/font = ExtResource("2_j1fe5")
+theme_override_font_sizes/font_size = 30
+text = "MAİN MENÜ"
