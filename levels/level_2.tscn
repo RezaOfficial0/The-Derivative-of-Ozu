@@ -20,6 +20,7 @@ wave_set = 2
 boss_scene = ExtResource("2_v5uil")
 
 [node name="background" type="Sprite2D" parent="." unique_id=1675540083]
+position = Vector2(-4, -2)
 texture = ExtResource("1_mi4ay")
 centered = false
 

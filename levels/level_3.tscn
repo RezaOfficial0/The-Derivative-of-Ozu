@@ -1,59 +1,59 @@
 [gd_scene format=3 uid="uid://br54lx8rhele7"]
 
-[ext_resource type="Texture2D" uid="uid://ln7tqojndmdt" path="res://levels/Golden Hour Campus Football Field.png" id="1_vkd0v"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hldmh"]
-size = Vector2(125, 657)
+[ext_resource type="Texture2D" uid="uid://c7k6qtsvulvxw" path="res://assets/backgrounds/Golden Hour Campus Football Field (2).png" id="1_vkd0v"]
+[ext_resource type="Script" uid="uid://cufm8j5ogo8gc" path="res://scripts/level.gd" id="2_hldmh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2vm8a"]
-size = Vector2(1180, 152)
+size = Vector2(118, 688)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3au71"]
+size = Vector2(1204, 135)
 
 [node name="Level3" type="Node2D" unique_id=448134750]
-position = Vector2(-5, 5)
 
-[node name="background" type="Sprite2D" parent="." unique_id=1588322124]
-position = Vector2(1, 4)
-scale = Vector2(0.68600476, 0.6769394)
+[node name="background" type="Sprite2D" parent="." unique_id=130948664]
+scale = Vector2(0.68899524, 0.7109458)
 texture = ExtResource("1_vkd0v")
 centered = false
+script = ExtResource("2_hldmh")
 
-[node name="Walls" type="Node2D" parent="." unique_id=372733062]
+[node name="walls" type="Node2D" parent="." unique_id=189978166]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Walls" unique_id=1886040575]
-position = Vector2(13, 9)
+[node name="StaticBody2D" type="StaticBody2D" parent="walls" unique_id=615941447]
+collision_layer = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D" unique_id=925893236]
-position = Vector2(52.5, 318.5)
-shape = SubResource("RectangleShape2D_hldmh")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/StaticBody2D" unique_id=1290608505]
-position = Vector2(1072, 308)
-shape = SubResource("RectangleShape2D_hldmh")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls/StaticBody2D" unique_id=2106676660]
-position = Vector2(557, 66)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=2145855439]
+position = Vector2(65, 336)
 shape = SubResource("RectangleShape2D_2vm8a")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls/StaticBody2D" unique_id=596981986]
-position = Vector2(565, 601)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=1062524581]
+position = Vector2(1095, 321)
 shape = SubResource("RectangleShape2D_2vm8a")
 
-[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=458721583]
-position = Vector2(580, 528)
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=915225473]
+position = Vector2(570, 56)
+shape = SubResource("RectangleShape2D_3au71")
 
-[node name="Node2D" type="Node2D" parent="." unique_id=1132165319]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=1761568199]
+position = Vector2(598, 614)
+shape = SubResource("RectangleShape2D_3au71")
 
-[node name="SpawnPoint1" type="Marker2D" parent="Node2D" unique_id=677578791]
-position = Vector2(649, 185)
+[node name="playerRespawn" type="Marker2D" parent="." unique_id=1582023313]
+position = Vector2(583, 539)
 
-[node name="SpawnPoint2" type="Marker2D" parent="Node2D" unique_id=1203400369]
-position = Vector2(497, 180)
+[node name="Spawn" type="Node2D" parent="." unique_id=1535121423]
 
-[node name="SpawnPoint3" type="Marker2D" parent="Node2D" unique_id=1263731264]
-position = Vector2(929, 168)
+[node name="enemySpawn" type="Marker2D" parent="Spawn" unique_id=1433106334]
+position = Vector2(932, 164)
 
-[node name="SpawnPoint4" type="Marker2D" parent="Node2D" unique_id=1012344433]
-position = Vector2(228, 175)
+[node name="enemySpawn2" type="Marker2D" parent="Spawn" unique_id=2018848542]
+position = Vector2(232, 160)
 
-[node name="BossSpawn" type="Marker2D" parent="Node2D" unique_id=1650113421]
-position = Vector2(574, 181)
+[node name="enemySpawn3" type="Marker2D" parent="Spawn" unique_id=874058125]
+position = Vector2(515, 174)
+
+[node name="enemyspawn4" type="Marker2D" parent="Spawn" unique_id=1551122344]
+position = Vector2(645, 179)
+
+[node name="bossSpawn" type="Marker2D" parent="Spawn" unique_id=1401797673]
+position = Vector2(587, 160)

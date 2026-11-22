@@ -1,3 +1,56 @@
 [gd_scene format=3 uid="uid://b7d3rx46tqf7g"]
 
-[node name="MainMenu" type="Node2D" unique_id=775686684]
+[ext_resource type="Texture2D" uid="uid://oip7aaiv6220" path="res://assets/backgrounds/Giriş.webp" id="1_0dkrt"]
+[ext_resource type="FontFile" uid="uid://dqrrhwspj7tsf" path="res://assets/fonts/PixelifySans-Medium.ttf" id="2_wk0pr"]
+
+[node name="MainMenü" type="Control" unique_id=1510535926]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1405421496]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_0dkrt")
+
+[node name="Label" type="Label" parent="." unique_id=77053641]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 0.018000001
+offset_left = 163.0
+offset_top = 127.0
+offset_right = 1025.0
+offset_bottom = 212.336
+theme_override_colors/font_color = Color(1, 1, 0.32941177, 1)
+theme_override_fonts/font = ExtResource("2_wk0pr")
+theme_override_font_sizes/font_size = 80
+text = "THE DERİVATİVE OF ÖZÜ"
+
+[node name="StartButton" type="Button" parent="Label" unique_id=1070453589]
+layout_mode = 0
+offset_left = 563.0
+offset_top = 224.0
+offset_right = 686.0
+offset_bottom = 270.0
+theme_override_colors/font_color = Color(0.8745098, 1, 0.53333336, 1)
+theme_override_fonts/font = ExtResource("2_wk0pr")
+theme_override_font_sizes/font_size = 31
+text = "BAŞLA"
+
+[node name="QuitButton" type="Button" parent="Label" unique_id=527507942]
+layout_mode = 0
+offset_left = 561.0
+offset_top = 278.0
+offset_right = 683.0
+offset_bottom = 315.0
+theme_override_colors/font_color = Color(1, 1, 0.4745098, 1)
+theme_override_fonts/font = ExtResource("2_wk0pr")
+theme_override_font_sizes/font_size = 31
+text = "ÇIKIŞ"
