@@ -4,6 +4,8 @@
 [ext_resource type="FontFile" uid="uid://dqrrhwspj7tsf" path="res://assets/fonts/PixelifySans-Medium.ttf" id="2_j1fe5"]
 [ext_resource type="Texture2D" uid="uid://d1y53kx736btc" path="res://assets/backgrounds/80400d75-f655-4220-8a19-6bc04eb39783-removebg-preview.png" id="2_xjda6"]
 
+[ext_resource type="Script" path="res://scripts/game_over.gd" id="3_go"]
+
 [sub_resource type="Theme" id="Theme_2vm8a"]
 
 [node name="Control" type="Control" unique_id=1952558612]
@@ -13,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("3_go")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=2095860935]
 layout_mode = 1
@@ -51,4 +54,4 @@ offset_right = 928.0
 offset_bottom = 383.0
 theme_override_fonts/font = ExtResource("2_j1fe5")
 theme_override_font_sizes/font_size = 30
-text = "MAİN MENÜ"
+text = "ANA MENÜ"

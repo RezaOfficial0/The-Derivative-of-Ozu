@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://curas6jeuhfch"
-path="res://.godot/imported/Özyeğin University Pixel Plaza.png-5adfca9881c7af6fc790da4275c2760f.ctex"
+uid="uid://c28eu8liawwsa"
+path="res://.godot/imported/saha.png-f12860b897814dfc5d75253513d4142d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backgrounds/Özyeğin University Pixel Plaza.png"
-dest_files=["res://.godot/imported/Özyeğin University Pixel Plaza.png-5adfca9881c7af6fc790da4275c2760f.ctex"]
+source_file="res://assets/backgrounds/saha.png"
+dest_files=["res://.godot/imported/saha.png-f12860b897814dfc5d75253513d4142d.ctex"]
 
 [params]
 

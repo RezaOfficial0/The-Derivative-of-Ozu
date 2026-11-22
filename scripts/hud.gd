@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var boss_panel: Control = $BossPanel
 @onready var boss_name: Label = $BossPanel/BossName
 @onready var boss_bar: ProgressBar = $BossPanel/BossBar
+@onready var objective_label: Label = $ObjectiveLabel
 
 var _msg_id := 0
 var _hint_id := 0
@@ -21,6 +22,7 @@ func _ready() -> void:
 	center_label.hide()
 	hint_label.hide()
 	boss_panel.hide()
+	objective_label.hide()
 
 
 func set_hp(hp: int, max_hp: int) -> void:
@@ -82,3 +84,9 @@ func hide_boss() -> void:
 func set_boss_mode(on: bool) -> void:
 	boss_mode = on
 	set_ulti(_ulti_v, _ulti_m)
+
+
+## Boss dovusunde ekranin ustunde surekli duran "simdi ne yapmali" satiri. Bos metin = gizle.
+func set_objective(text: String) -> void:
+	objective_label.text = text
+	objective_label.visible = text != ""

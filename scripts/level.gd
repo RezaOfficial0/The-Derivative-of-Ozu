@@ -7,6 +7,7 @@ const Controls := preload("res://scripts/controls.gd")
 const PLAYER := preload("res://scenes/player.tscn")
 const PAPER := preload("res://scenes/paper_enemy.tscn")
 const HUD := preload("res://scenes/hud.tscn")
+const GameState := preload("res://scripts/game_state.gd")
 
 ## Dalga setleri. Her dalga = o dalgada dogacak kagitlarin polinomlari.
 ## [0, 0, 1] = x²   [0, 3] = 3x   [0, 1, 0, 1] = x³ + x   [0, 0, 0, 0, 1] = x⁴
@@ -47,10 +48,13 @@ var waiting := false
 var level_over := false
 var boss_phase := false
 var boss = null
+var music: AudioStreamPlayer
 
 
 func _ready() -> void:
 	Controls.setup()
+	GameState.set_last_level(scene_file_path)   # Game Over -> Tekrar Dene buraya doner
+	music = GameState.play_music(self, GameState.MUSIC_LEVEL)
 	waves = WAVE_SETS.get(wave_set, WAVE_SETS[1])
 	for m in find_children("Spawn*", "Marker2D", true, false):
 		spawn_points.append(m)
@@ -186,6 +190,7 @@ func _check_wave_done() -> void:
 func _start_boss() -> void:
 	boss_phase = true
 	hud.show_message("BOSS GELİYOR!", 2.0)
+	GameState.switch_music(music, GameState.MUSIC_BOSS)
 	_shake(22.0)
 	await get_tree().create_timer(2.0).timeout
 	if level_over:
@@ -195,6 +200,8 @@ func _start_boss() -> void:
 	boss.lives_changed.connect(hud.set_boss_hp)
 	boss.summon_requested.connect(_on_boss_summon)
 	boss.hint.connect(hud.show_hint)
+	if boss.has_signal("objective"):
+		boss.objective.connect(hud.set_objective)
 	boss.defeated.connect(_on_boss_defeated)
 	add_child(boss)
 	hud.show_boss(boss.boss_title, boss.max_lives)
@@ -219,6 +226,7 @@ func _on_boss_defeated() -> void:
 		if e.has_method("kill"):
 			e.kill()
 	hud.hide_boss()
+	hud.set_objective("")
 	hud.set_boss_mode(false)
 	_shake(18.0)
 	_level_clear()
@@ -228,9 +236,11 @@ func _on_boss_defeated() -> void:
 func _level_clear() -> void:
 	level_over = true
 	hud.show_message("BÖLÜM TAMAM!\n%s kurtarıldı." % level_name, 0)
+	await get_tree().create_timer(3.5).timeout
 	if next_level != "":
-		await get_tree().create_timer(3.0).timeout
 		get_tree().change_scene_to_file(next_level)
+	else:
+		get_tree().change_scene_to_file(GameState.MAIN_MENU)   # son bolum: ana menuye don
 
 
 func _on_player_died() -> void:
@@ -239,4 +249,4 @@ func _on_player_died() -> void:
 	level_over = true
 	hud.show_message("GAME OVER\nBütünleme haftası seni bekliyor.", 0)
 	await get_tree().create_timer(2.5).timeout
-	get_tree().reload_current_scene()
+	get_tree().change_scene_to_file(GameState.GAME_OVER)

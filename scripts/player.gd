@@ -61,8 +61,11 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_pressed("shoot") and fire_timer <= 0.0:
 		_shoot()
-	if Input.is_action_just_pressed("ulti_slam") and ulti >= ulti_max and not is_slamming:
-		_heavy_slam()
+	if Input.is_action_just_pressed("ulti_slam") and not is_slamming:
+		if ulti >= ulti_max:
+			_heavy_slam()
+		else:
+			hint.emit("Ulti barı dolmadı! Kâğıt yok et.", 1.5)
 	if Input.is_action_just_pressed("ulti_log"):
 		_try_log()
 
@@ -112,13 +115,23 @@ func _heavy_slam() -> void:
 	tw.tween_property(sprite, "scale", base_scale, 0.12).set_ease(Tween.EASE_IN)
 	await tw.finished
 
+	var missed_boss := false
 	for e in get_tree().get_nodes_in_group("enemies"):
 		var n := e as Node2D
-		if n and n.global_position.distance_to(global_position) <= slam_radius:
+		if n == null:
+			continue
+		# buyuk dusmanlarda (boss) govdenin kenari halkaya degerse yeter
+		var extra = n.get("hit_radius")
+		var reach := slam_radius + (float(extra) if extra != null else 0.0)
+		if n.global_position.distance_to(global_position) <= reach:
 			if n.has_method("take_slam"):
 				n.take_slam()          # bazi bosslar atlamaya ozel tepki verir
 			elif n.has_method("take_derivative"):
 				n.take_derivative()
+		elif n.has_method("wants_slam") and n.wants_slam():
+			missed_boss = true
+	if missed_boss:
+		hint.emit("Iskaladın! Halka bossa değmeli, daha yakından [Q].", 2.0)
 	_shockwave()
 	slammed.emit()
 	is_slamming = false

@@ -10,6 +10,7 @@ signal lives_changed(lives: int, max_lives: int)
 signal summon_requested(polys: Array)
 signal hint(text: String, duration: float)
 signal defeated
+signal objective(text: String)
 
 enum State { DEFINED, UNDEFINED, LOGGED, OPEN, HURT, DEAD }
 
@@ -32,6 +33,7 @@ const C_UNDEF := Color(0.75, 0.7, 0.85)
 @export var max_minions := 3
 @export var contact_radius := 100.0
 @export var sway := 180.0              # sinus yolunda saga sola gezinme
+@export var hit_radius := 115.0        # Agir Atlama menziline eklenir (buyuk govde)
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var label: Label = $Label
@@ -68,6 +70,7 @@ func _ready() -> void:
 	timer_label.hide()
 	_set_formula("(sin x)ˣ", C_IMMUNE, 54)
 	lives_changed.emit(lives, max_lives)
+	_objective()
 	sprite.scale = base_scale * 0.2
 	modulate.a = 0.0
 	var tw := create_tween().set_parallel()
@@ -130,6 +133,7 @@ func _go_undefined() -> void:
 	_set_formula("tanımsız!", C_UNDEF, 40)
 	_float_text("sin x ≤ 0", C_UNDEF)
 	set_meta("was_logged", was_logged)
+	_objective()
 
 
 func _go_defined() -> void:
@@ -143,6 +147,27 @@ func _go_defined() -> void:
 	else:
 		state = State.DEFINED
 		_set_formula("(sin x)ˣ", C_IMMUNE, 54)
+	_objective()
+
+
+## Ekranin ustunde surekli duran "simdi ne yapmali" satiri.
+func _objective() -> void:
+	match state:
+		State.DEFINED:
+			objective.emit("1/3   Düz türev işlemez  →  ulti dolunca [E] Logaritma")
+		State.LOGGED:
+			objective.emit("2/3   Çarpım kuralı: barı doldur, bossa yaklaş, [Q] Ağır Atlama")
+		State.UNDEFINED:
+			objective.emit("Tanımsız! (sin x ≤ 0)  Mermiler geçer, bekle...")
+		State.OPEN:
+			objective.emit("3/3   Açıldı! Türevle bitir!")
+		_:
+			objective.emit("")
+
+
+## Agir Atlama'yi bekliyor mu? (player.gd iskalama uyarisi icin)
+func wants_slam() -> bool:
+	return state == State.LOGGED
 
 
 # ---------------------------------------------------------------- saldirilar
@@ -210,7 +235,7 @@ func take_derivative() -> void:
 				hint.emit("Düz türev işlemez. Ulti dolunca [E] Logaritma!", 3.0)
 		State.LOGGED:
 			_flash(Color(1, 0.9, 0.5))
-			_taunt("Çarpım kuralı lazım!")
+			_taunt("Çarpım kuralı = [Q] Ağır Atlama!")
 			if not hinted_slam:
 				hinted_slam = true
 				hint.emit("x · ln(sin x) bir çarpım: yaklaş ve [Q] Ağır Atlama!", 3.0)
@@ -234,6 +259,7 @@ func take_slam() -> void:
 			timer_label.show()
 			sprite.modulate = Color(0.7, 1.0, 0.8)
 			hint.emit("Açıldı! Türevle bitir!", 1.8)
+			_objective()
 		State.UNDEFINED:
 			_float_text("tanımsız noktada türev yok!", C_UNDEF)
 		_:
@@ -253,6 +279,7 @@ func take_log() -> void:
 	_float_text("ln y = x · ln(sin x)", C_LOGGED)
 	summon_timer = 0.2   # hemen kagit: atlama icin bar dolsun
 	hint.emit("Kâğıtlarla barı doldur, sonra yaklaş ve [Q] Ağır Atlama!", 3.0)
+	_objective()
 
 
 func _lose_life() -> void:
@@ -265,6 +292,7 @@ func _lose_life() -> void:
 	state = State.HURT
 	_set_formula("Q.E.D.", Color.WHITE, 44)
 	_flash(Color(1, 0.3, 0.3))
+	_objective()
 	await get_tree().create_timer(1.3).timeout
 	if state == State.HURT:
 		_reset_to_defined("Daha bitmedi!")
@@ -279,12 +307,14 @@ func _reset_to_defined(msg: String) -> void:
 	sprite.rotation = 0.0
 	_set_formula("(sin x)ˣ", C_IMMUNE, 54)
 	_float_text(msg, C_IMMUNE)
+	_objective()
 	fan_timer = 1.0
 	summon_timer = 0.3
 
 
 func _die() -> void:
 	state = State.DEAD
+	objective.emit("")
 	remove_from_group("enemies")
 	remove_from_group("log_targets")
 	shape.set_deferred("disabled", true)

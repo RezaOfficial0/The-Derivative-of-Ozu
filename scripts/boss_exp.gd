@@ -10,6 +10,7 @@ signal lives_changed(lives: int, max_lives: int)
 signal summon_requested(polys: Array)
 signal hint(text: String, duration: float)
 signal defeated
+signal objective(text: String)
 
 enum State { EXP, X, ONE, HURT, DEAD }
 
@@ -26,6 +27,7 @@ const COLOR_WEAK := Color(0.4, 1, 0.5)
 @export var max_minions := 3
 @export var contact_radius := 95.0     # bu kadar yaklasirsan hasar alirsin
 @export var hover_amount := 30.0
+@export var hit_radius := 100.0        # Agir Atlama menziline eklenir
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var label: Label = $Label
@@ -55,6 +57,7 @@ func _ready() -> void:
 	_set_formula("eˣ", COLOR_IMMUNE)
 	timer_label.hide()
 	lives_changed.emit(lives, max_lives)
+	objective.emit("Türev işlemez  →  ulti dolunca [E] Logaritma")
 	# giris animasyonu
 	sprite.scale = base_scale * 0.2
 	modulate.a = 0.0
@@ -163,6 +166,7 @@ func take_log() -> void:
 	sprite.modulate = Color(0.75, 0.85, 1.0)
 	create_tween().tween_property(sprite, "scale", base_scale * 0.8, 0.25)
 	hint.emit("Savunmasız! Şimdi türev at!", 1.8)
+	objective.emit("Savunmasız!  Türev at:  x → 1 → 0")
 
 
 func _lose_life() -> void:
@@ -183,6 +187,7 @@ func _lose_life() -> void:
 func _back_to_exp(after_hit: bool) -> void:
 	state = State.EXP
 	_set_formula("eˣ", COLOR_IMMUNE)
+	objective.emit("Türev işlemez  →  ulti dolunca [E] Logaritma")
 	timer_label.hide()
 	sprite.modulate = Color.WHITE
 	sprite.rotation = 0.0
@@ -193,6 +198,7 @@ func _back_to_exp(after_hit: bool) -> void:
 
 func _die() -> void:
 	state = State.DEAD
+	objective.emit("")
 	remove_from_group("enemies")
 	remove_from_group("log_targets")
 	$CollisionShape2D.set_deferred("disabled", true)

@@ -17,6 +17,7 @@ size = Vector2(346.6, 181.7)
 script = ExtResource("1_0srwa")
 level_name = "Meydan"
 wave_set = 2
+next_level = "uid://br54lx8rhele7"
 boss_scene = ExtResource("2_v5uil")
 
 [node name="background" type="Sprite2D" parent="." unique_id=1675540083]

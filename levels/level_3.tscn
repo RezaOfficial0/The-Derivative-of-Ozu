@@ -1,21 +1,23 @@
 [gd_scene format=3 uid="uid://br54lx8rhele7"]
 
-[ext_resource type="Texture2D" uid="uid://c7k6qtsvulvxw" path="res://assets/backgrounds/Golden Hour Campus Football Field (2).png" id="1_vkd0v"]
+[ext_resource type="Texture2D" uid="uid://c28eu8liawwsa" path="res://assets/backgrounds/saha.png" id="1_vkd0v"]
 [ext_resource type="Script" uid="uid://cufm8j5ogo8gc" path="res://scripts/level.gd" id="2_hldmh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2vm8a"]
-size = Vector2(118, 688)
+size = Vector2(171.3, 967.7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3au71"]
-size = Vector2(1204, 135)
+size = Vector2(1747.5, 189.9)
 
 [node name="Level3" type="Node2D" unique_id=448134750]
+script = ExtResource("2_hldmh")
+level_name = "Futbol Sahası"
+wave_set = 3
+boss_scene = null
 
 [node name="background" type="Sprite2D" parent="." unique_id=130948664]
-scale = Vector2(0.68899524, 0.7109458)
 texture = ExtResource("1_vkd0v")
 centered = false
-script = ExtResource("2_hldmh")
 
 [node name="walls" type="Node2D" parent="." unique_id=189978166]
 
@@ -23,37 +25,37 @@ script = ExtResource("2_hldmh")
 collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=2145855439]
-position = Vector2(65, 336)
+position = Vector2(94.3, 472.6)
 shape = SubResource("RectangleShape2D_2vm8a")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=1062524581]
-position = Vector2(1095, 321)
+position = Vector2(1589.3, 451.5)
 shape = SubResource("RectangleShape2D_2vm8a")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=915225473]
-position = Vector2(570, 56)
+position = Vector2(827.3, 78.8)
 shape = SubResource("RectangleShape2D_3au71")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="walls/StaticBody2D" unique_id=1761568199]
-position = Vector2(598, 614)
+position = Vector2(867.9, 863.6)
 shape = SubResource("RectangleShape2D_3au71")
 
-[node name="playerRespawn" type="Marker2D" parent="." unique_id=1582023313]
-position = Vector2(583, 539)
+[node name="PlayerStart" type="Marker2D" parent="." unique_id=1582023313]
+position = Vector2(846.2, 689.2)
 
-[node name="Spawn" type="Node2D" parent="." unique_id=1535121423]
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=1535121423]
 
-[node name="enemySpawn" type="Marker2D" parent="Spawn" unique_id=1433106334]
-position = Vector2(932, 164)
+[node name="Spawn1" type="Marker2D" parent="SpawnPoints" unique_id=1433106334]
+position = Vector2(1352.7, 265.8)
 
-[node name="enemySpawn2" type="Marker2D" parent="Spawn" unique_id=2018848542]
-position = Vector2(232, 160)
+[node name="Spawn2" type="Marker2D" parent="SpawnPoints" unique_id=2018848542]
+position = Vector2(336.7, 260.2)
 
-[node name="enemySpawn3" type="Marker2D" parent="Spawn" unique_id=874058125]
-position = Vector2(515, 174)
+[node name="Spawn3" type="Marker2D" parent="SpawnPoints" unique_id=874058125]
+position = Vector2(747.5, 274.3)
 
-[node name="enemyspawn4" type="Marker2D" parent="Spawn" unique_id=1551122344]
-position = Vector2(645, 179)
+[node name="Spawn4" type="Marker2D" parent="SpawnPoints" unique_id=1551122344]
+position = Vector2(936.1, 274.3)
 
-[node name="bossSpawn" type="Marker2D" parent="Spawn" unique_id=1401797673]
-position = Vector2(587, 160)
+[node name="BossStart" type="Marker2D" parent="." unique_id=1401797673]
+position = Vector2(852, 302.4)

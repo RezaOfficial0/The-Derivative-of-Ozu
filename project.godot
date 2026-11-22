@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="The Derivative of OZU"
-run/main_scene="uid://t8t3ok1lf7c6"
+run/main_scene="uid://d243pc6w0k2yt"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
